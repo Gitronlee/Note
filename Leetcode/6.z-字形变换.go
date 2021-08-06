@@ -2,7 +2,7 @@
  * @Author: ronlee
  * @Date: 2021-08-05 23:04:51
  * @LastEditors: ronlee
- * @LastEditTime: 2021-08-05 23:51:34
+ * @LastEditTime: 2021-08-06 12:42:52
  * @Description: file content
  * @FilePath: \Note\Leetcode\6.z-字形变换.go
  */
@@ -78,31 +78,27 @@
 
 // @lc code=start
 func convert(s string, numRows int) string {
-	//注意对string的遍历可能出错，因此转成 byte 格式
-	matrix, down, up := make([][]byte, numRows, numRows), 0, numRows-2
-	//len(s)肯定可以拿到对应字符
-	for i := 0; i != len(s); {
-		if down != numRows {
-			//byte数组增加一个byte
-			matrix[down] = append(matrix[down], byte(s[i]))
-			down++
-			i++
-		} else if up > 0 {
-			matrix[up] = append(matrix[up], byte(s[i]))
-			up--
-			i++
-		} else {
-			up = numRows - 2
-			down = 0
-		}
+	//以v型队列方式
+	//每个v队的个数为 n= 2*（ numRows - 1）
+	strList := make([]string, numRows)
+	if len(s) <= 1 {
+		return s
 	}
-	solution := make([]byte, 0, len(s))
-	for _, row := range matrix {
-		for _, item := range row {
-			solution = append(solution, item)
-		}
+	if numRows <= 1 {
+		return s
 	}
-	return string(solution)
+	n := 2 * (numRows - 1)
+	//对应的i位应该被放在v队列的位置 i%n
+	for i, v := range s {
+		vindex := i % n
+		//如果vindex 超过了最大坐标 numRows-1
+		if vindex > numRows-1 {
+			//vindex = numRows - 1 - (vindex - numRows - 1 )
+			vindex = n - vindex
+		}
+		strList[vindex] += string(v)
+	}
+	return strings.Join(strList, "")
 }
 
 // @lc code=end
