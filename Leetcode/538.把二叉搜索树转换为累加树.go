@@ -2,7 +2,7 @@
  * @Author: ronlee
  * @Date: 2021-12-29 14:31:39
  * @LastEditors: ronlee
- * @LastEditTime: 2021-12-29 14:37:26
+ * @LastEditTime: 2021-12-30 10:59:05
  * @Description: file content
  * @FilePath: \_1_learn\Note\Leetcode\538.把二叉搜索树转换为累加树.go
  */
@@ -88,6 +88,7 @@
  */
 func convertBST(root *TreeNode) *TreeNode {
 	sum := 0
+	//在遍历的过程中维护一个sum
 	helper(root, &sum)
 	return root
 }
