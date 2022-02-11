@@ -2,7 +2,7 @@
  * @Author: ronlee
  * @Date: 2022-01-05 21:04:54
  * @LastEditors: ronlee
- * @LastEditTime: 2022-01-05 21:37:40
+ * @LastEditTime: 2022-02-11 09:22:49
  * @Description: file content
  * @FilePath: \_1_learn\Note\Leetcode\95.不同的二叉搜索树-ii.go
  */
@@ -66,17 +66,19 @@ func generateTrees(n int) []*TreeNode {
 	if n == 0 {
 		return nil
 	}
+	// [1,n]的整数生成不同的二叉搜索树
 	return build(1, n)
 }
 func build(lo int, hi int) []*TreeNode {
 	//用于记录结果
 	var res []*TreeNode
+	// 如果区间不合法，则生成为nil的树
 	if lo > hi {
 		res = append(res, nil)
 		return res
 	}
 	for i := lo; i <= hi; i++ {
-		//i为根节点时，先构建出左右子树的所有情况
+		//i为根节点时，先构建出左右子树的所有情况，由于左右的大小不同故定是搜索树
 		leftList := build(lo, i-1)
 		rightList := build(i+1, hi)
 		for li := 0; li < len(leftList); li++ {
@@ -85,7 +87,8 @@ func build(lo int, hi int) []*TreeNode {
 				cur := TreeNode{
 					Val:   i,
 					Left:  leftList[li],
-					Right: rightList[ri]} //注意go的这里不能另起一行
+					Right: rightList[ri],
+					} 
 				res = append(res, &cur)
 			}
 		}

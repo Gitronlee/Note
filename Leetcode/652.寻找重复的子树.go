@@ -2,7 +2,7 @@
  * @Author: ronlee
  * @Date: 2021-12-28 20:22:23
  * @LastEditors: ronlee
- * @LastEditTime: 2021-12-29 10:06:10
+ * @LastEditTime: 2022-02-11 09:29:13
  * @Description: file content
  * @FilePath: \_1_learn\Note\Leetcode\652.寻找重复的子树.go
  */
@@ -62,6 +62,7 @@
  * }
  */
 func findDuplicateSubtrees(root *TreeNode) []*TreeNode {
+	// 思路就是把每个子树的序列化字符串存到map里，如果重复就把这个子树存到res里
 	hashAll := map[string]int{}
 	res := []*TreeNode{}
 	dfs(root, hashAll, &res)
@@ -74,9 +75,10 @@ func dfs(node *TreeNode, hashAll map[string]int, res *[]*TreeNode) string {
 	}
 	lString := dfs(node.Left, hashAll, res)
 	rString := dfs(node.Right, hashAll, res)
-	//序列化时主语这里的括号，若不加括号可能导致【00#】和【0#0】的误判
+	//序列化时注意这里的括号，若不加括号可能导致【中：#A#B# 前：A#B##】和【中：#A#B# 前：BA###】的误判
 	buildString := fmt.Sprintf("(%s)(%d)(%s)", lString, node.Val, rString)
 	hashAll[buildString]++
+	// 这里要用==2，因为>2的情况时已经被统计过了
 	if hashAll[buildString] == 2 {
 		*res = append(*res, node)
 	}

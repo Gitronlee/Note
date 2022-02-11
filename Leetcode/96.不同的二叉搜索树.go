@@ -2,7 +2,7 @@
  * @Author: ronlee
  * @Date: 2022-01-05 15:47:28
  * @LastEditors: ronlee
- * @LastEditTime: 2022-01-05 20:59:28
+ * @LastEditTime: 2022-02-10 15:11:36
  * @Description: file content
  * @FilePath: \_1_learn\Note\Leetcode\96.不同的二叉搜索树.go
  */
@@ -61,6 +61,7 @@ func count(lo int, hi int, c map[string]int) int {
 	if val, ok := c[cur]; ok {
 		return val
 	}
+	// 不合法区间时只能生成1个nil的树
 	if lo > hi {
 		c[cur] = 1
 		return 1

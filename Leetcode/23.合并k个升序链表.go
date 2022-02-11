@@ -100,8 +100,8 @@ func mergeKLists(lists []*ListNode) *ListNode {
 			heap.Push(&h, v)
 		}
 	}
-	res := &ListNode{}
-	cur := res
+	head := &ListNode{}
+	cur := head
 	for h.Len() > 0 {
 		//逻辑上为将K个链表一次入堆，再一次pop最小，但若此链还有值则后续再入堆、
 		ln := heap.Pop(&h).(*ListNode)
@@ -111,7 +111,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 		}
 		cur = cur.Next
 	}
-	return res.Next
+	return head.Next
 }
 
 // @lc code=end

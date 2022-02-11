@@ -94,17 +94,19 @@ func maxSumBST(root *TreeNode) int {
 }
 func dfs(root *TreeNode, res *int) []int {
 	if root == nil {
-		//分别为 是否为BST，最小值，最大值，和(这里的初始最大最小值注意选，最小值的边界为max，最大值的边界为min，以供程序比较将初始值更新)
+		//分别为 是否为BST，当前树中的最小值，最大值，最大键值和
+		// (这里的初始最大最小值注意选，最小值的边界为max，最大值的边界为min，以对应min和max函数做更新)
 		return []int{1, 40001, -40001, 0}
 	}
 	left := dfs(root.Left, res)
 	right := dfs(root.Right, res)
+	// 若左右子树都是BST，且root值大于左子树最大值，小于右子树最小值，则root为BST，则返回1，最小值，最大值，最大键值和
 	if left[0] == 1 && right[0] == 1 && root.Val > left[2] && root.Val < right[1] {
-		//所以当前root为BST
+		//所以当前root为BST，且用当前键值和尝试更新最大键值和
 		*res = max(*res, left[3]+right[3]+root.Val)
 		return []int{1, min(left[1], root.Val), max(right[2], root.Val), left[3] + right[3] + root.Val}
 	} else {
-		return []int{0, 40001, -40001, 0}
+		return []int{0, 0, 0, 0}
 	}
 }
 func max(a, b int) int {
