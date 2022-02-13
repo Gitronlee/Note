@@ -2,7 +2,7 @@
  * @Author: ronlee
  * @Date: 2022-01-12 21:43:45
  * @LastEditors: ronlee
- * @LastEditTime: 2022-01-12 22:01:53
+ * @LastEditTime: 2022-02-11 11:21:13
  * @Description: file content
  * @FilePath: \_1_learn\Note\Leetcode\236.二叉树的最近公共祖先.go
  */
@@ -79,16 +79,16 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 		//如果当前为nil 或 当前为p 或当前为q 则直接返回当前
 		return root
 	}
-	//否则从左右子树中查找
+	//否则从左右子树中查找,pq要么在左子树,要么在右子树，要么分开在左右子树中（此时一直递归会回到basecase的情形）
 	left := lowestCommonAncestor(root.Left, p, q)
 	right := lowestCommonAncestor(root.Right, p, q)
 	//如果分别在左右子树中都找到了
 	if left != nil && right != nil {
-		//说明当前为左右子树的最近公共祖先，有basecase这里两边都是非空则必是找到qp
-		//若找到的是nil，那么就是没有找到qp，其公共祖先也就是nil
+		//说明当前为左右子树的最近公共祖先，有basecase这里两边都是非空则必是找到的是左右为qp
+		// 那么root就是最近公共祖先
 		return root
 	}
-	//如果都是空
+	//否则哪边找到了就返回哪边找到的
 	if left != nil {
 		return left
 	}
